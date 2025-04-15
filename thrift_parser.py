@@ -75,6 +75,13 @@ def p_enum_field(p):
     p[0] = {'name': p[1], 'value': p[3]}
 
 
+def p_const_value(p):
+    '''const_value : NUMBER
+                   | BOOL_VALUE
+                   | STRING_LITERAL
+                   | IDENTIFIER'''
+    p[0] = p[1]
+
 def p_struct(p):
     'struct : STRUCT IDENTIFIER LBRACE field_list RBRACE'
     struct_namespace = current_namespace['name'] if current_namespace else None
@@ -93,14 +100,22 @@ def p_field_list(p):
         p[0] = [p[1]]
 
 def p_field(p):
-    '''field : NUMBER COLON field_req field_type IDENTIFIER COMMA
+    '''field : NUMBER COLON field_req field_type IDENTIFIER EQUALS const_value COMMA
+             | NUMBER COLON field_req field_type IDENTIFIER EQUALS const_value SEMICOLON
+             | NUMBER COLON field_req field_type IDENTIFIER EQUALS const_value
+             | NUMBER COLON field_req field_type IDENTIFIER COMMA
+             | NUMBER COLON field_req field_type IDENTIFIER SEMICOLON
              | NUMBER COLON field_req field_type IDENTIFIER'''
-    p[0] = {
+    field_dict = {
         'id': p[1],
         'requiredness': p[3],
         'type': p[4],
-        'name': p[5]
+        'name': p[5],
+        'default': None
     }
+    if len(p) == 9 or len(p) == 8:
+        field_dict['default'] = p[7]
+    p[0] = field_dict
 
 def p_field_req(p):
     '''field_req : OPTIONAL

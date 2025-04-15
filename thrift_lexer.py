@@ -21,16 +21,19 @@ tokens = [
     'NUMBER',
     'COLON',
     'COMMA',
+    'SEMICOLON',
     'LBRACE',
     'RBRACE',
     'LPAREN',
     'RPAREN',
     'EQUALS',
     'STRING_LITERAL',
+    'BOOL_VALUE',
 ] + list(reserved.values())
 
 t_COLON = r':'
 t_COMMA = r','
+t_SEMICOLON = r';'
 t_EQUALS = r'='
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
@@ -54,12 +57,17 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
+def t_BOOL_VALUE(t):
+    r'true|false'
+    t.value = True if t.value == 'true' else False
+    return t
+
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
 def t_comment(t):
-    r'(//.*)|(/\*(.|\n)*?\*/)'
+    r'(//.*)|(/\*(.|\n)*?\*/)|(\#.*)'
     pass
 
 def t_error(t):
