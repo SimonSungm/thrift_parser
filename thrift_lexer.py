@@ -8,6 +8,8 @@ reserved = {
     'required': 'REQUIRED',
     'void': 'VOID',
     'include': 'INCLUDE',
+    'byte': 'BYTE',
+    'i8': 'I8',
     'i16': 'I16',
     'i32': 'I32',
     'i64': 'I64',

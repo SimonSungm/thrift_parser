@@ -16,4 +16,6 @@ struct User {
     4: list<i32> scores,
     5: set<string> tags,
     6: map<string, i32> attributes
+    7: byte b;
+    8: i8 v8
 }

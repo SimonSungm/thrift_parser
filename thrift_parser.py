@@ -127,6 +127,8 @@ def p_field_type(p):
     '''field_type : IDENTIFIER
                   | STRING
                   | BOOL
+                  | BYTE
+                  | I8
                   | I16
                   | I32
                   | I64
