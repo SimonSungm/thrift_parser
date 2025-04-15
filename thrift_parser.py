@@ -79,8 +79,44 @@ def p_const_value(p):
     '''const_value : NUMBER
                    | BOOL_VALUE
                    | STRING_LITERAL
-                   | IDENTIFIER'''
+                   | IDENTIFIER
+                   | const_list
+                   | const_map'''
     p[0] = p[1]
+
+def p_const_list(p):
+    'const_list : LBRACKET const_list_items RBRACKET'
+    p[0] = p[2]
+
+def p_const_list_items(p):
+    '''const_list_items : const_list_items COMMA const_value
+                        | const_value
+                        | empty'''
+    if len(p) == 4:
+        p[0] = p[1] + [p[3]]
+    elif p[1] is not None:
+        p[0] = [p[1]]
+    else:
+        p[0] = []
+
+def p_const_map(p):
+    'const_map : LBRACE const_map_items RBRACE'
+    p[0] = p[2]
+
+def p_const_map_items(p):
+    '''const_map_items : const_map_items COMMA const_map_item
+                       | const_map_item
+                       | empty'''
+    if len(p) == 4:
+        p[0] = {**p[1], **p[3]}
+    elif p[1] is not None:
+        p[0] = p[1]
+    else:
+        p[0] = {}
+
+def p_const_map_item(p):
+    'const_map_item : const_value COLON const_value'
+    p[0] = {p[1]: p[3]}
 
 def p_struct(p):
     'struct : STRUCT IDENTIFIER LBRACE field_list RBRACE'

@@ -33,6 +33,8 @@ tokens = [
     'RPAREN',
     'LT',
     'GT',
+    'LBRACKET',
+    'RBRACKET',
     'EQUALS',
     'STRING_LITERAL',
     'BOOL_VALUE',
@@ -48,6 +50,8 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LT = r'<'
 t_GT = r'>'
+t_LBRACKET = r'\['
+t_RBRACKET = r'\]'
 
 t_ignore = ' \t'
 
