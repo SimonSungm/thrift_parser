@@ -16,6 +16,8 @@ reserved = {
     'bool': 'BOOL',
     'string': 'STRING',
     'enum': 'ENUM',
+    'const': 'CONST',
+    'typedef': 'TYPEDEF',
     'list': 'LIST',
     'set': 'SET',
     'map': 'MAP',

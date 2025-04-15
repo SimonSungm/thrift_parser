@@ -7,7 +7,9 @@ thrift_definitions = {
     'structs': [],
     'services': [],
     'enums': [],
-    'includes': []
+    'includes': [],
+    'typedefs': [],
+    'consts': []
 }
 
 current_dir = ""
@@ -37,8 +39,29 @@ def p_definition(p):
                   | struct
                   | service
                   | enum
-                  | include'''
+                  | include
+                  | typedef
+                  | const'''
     pass
+
+def p_typedef(p):
+    'typedef : TYPEDEF field_type IDENTIFIER'
+    typedef_namespace = current_namespace['name'] if current_namespace else None
+    thrift_definitions['typedefs'].append({
+        'alias': p[3],
+        'type': p[2],
+        'namespace': typedef_namespace
+    })
+
+def p_const_definition(p):
+    'const : CONST field_type IDENTIFIER EQUALS const_value SEMICOLON'
+    const_namespace = current_namespace['name'] if current_namespace else None
+    thrift_definitions['consts'].append({
+        'name': p[3],
+        'type': p[2],
+        'value': p[5],
+        'namespace': const_namespace
+    })
 
 def p_include(p):
     'include : INCLUDE STRING_LITERAL'
