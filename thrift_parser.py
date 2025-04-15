@@ -129,8 +129,27 @@ def p_field_type(p):
                   | BOOL
                   | I16
                   | I32
-                  | I64'''
+                  | I64
+                  | container_type'''
     p[0] = p[1]
+
+def p_container_type(p):
+    '''container_type : list_type
+                      | set_type
+                      | map_type'''
+    p[0] = p[1]
+
+def p_list_type(p):
+    'list_type : LIST LT field_type GT'
+    p[0] = {'type': 'list', 'value_type': p[3]}
+
+def p_set_type(p):
+    'set_type : SET LT field_type GT'
+    p[0] = {'type': 'set', 'value_type': p[3]}
+
+def p_map_type(p):
+    'map_type : MAP LT field_type COMMA field_type GT'
+    p[0] = {'type': 'map', 'key_type': p[3], 'value_type': p[5]}
 
 def p_service(p):
     'service : SERVICE IDENTIFIER LBRACE function_list RBRACE'

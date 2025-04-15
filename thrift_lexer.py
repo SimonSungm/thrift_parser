@@ -14,6 +14,9 @@ reserved = {
     'bool': 'BOOL',
     'string': 'STRING',
     'enum': 'ENUM',
+    'list': 'LIST',
+    'set': 'SET',
+    'map': 'MAP',
 }
 
 tokens = [
@@ -26,6 +29,8 @@ tokens = [
     'RBRACE',
     'LPAREN',
     'RPAREN',
+    'LT',
+    'GT',
     'EQUALS',
     'STRING_LITERAL',
     'BOOL_VALUE',
@@ -39,6 +44,8 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+t_LT = r'<'
+t_GT = r'>'
 
 t_ignore = ' \t'
 
