@@ -14,6 +14,7 @@ reserved = {
     'i32': 'I32',
     'i64': 'I64',
     'bool': 'BOOL',
+    'double': 'DOUBLE',
     'string': 'STRING',
     'enum': 'ENUM',
     'const': 'CONST',
@@ -40,6 +41,7 @@ tokens = [
     'EQUALS',
     'STRING_LITERAL',
     'BOOL_VALUE',
+    'FLOAT_VALUE',
 ] + list(reserved.values())
 
 t_COLON = r':'
@@ -58,7 +60,7 @@ t_RBRACKET = r'\]'
 t_ignore = ' \t'
 
 def t_STRING_LITERAL(t):
-    r'"([^\\"]|\\.)*"'
+    r'"([^\\"]|\\.)*"|\'([^\\\']|\\.)*\''
     t.value = t.value[1:-1]  # 去掉引号
     return t
 
@@ -67,8 +69,13 @@ def t_IDENTIFIER(t):
     t.type = reserved.get(t.value, 'IDENTIFIER')
     return t
 
+def t_FLOAT_VALUE(t):
+    r'[-+]?\d*\.\d+'
+    t.value = float(t.value)
+    return t
+
 def t_NUMBER(t):
-    r'\d+'
+    r'[-+]?\d+'
     t.value = int(t.value)
     return t
 

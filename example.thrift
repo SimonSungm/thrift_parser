@@ -26,6 +26,7 @@ struct TestStruct {
     4: list<string> sListString
     5: set<i16> sSetI16
     6: map<i32,string> sMapI32String
+    7: double db = 1.0
 }
 
 struct User {

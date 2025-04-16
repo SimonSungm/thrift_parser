@@ -94,6 +94,7 @@ def p_enum_field_list(p):
 
 def p_enum_field(p):
     '''enum_field : IDENTIFIER EQUALS NUMBER COMMA
+                  | IDENTIFIER EQUALS NUMBER SEMICOLON
                   | IDENTIFIER EQUALS NUMBER'''
     p[0] = {'name': p[1], 'value': p[3]}
 
@@ -102,6 +103,7 @@ def p_const_value(p):
     '''const_value : NUMBER
                    | BOOL_VALUE
                    | STRING_LITERAL
+                   | FLOAT_VALUE
                    | IDENTIFIER
                    | const_list
                    | const_map'''
@@ -191,6 +193,7 @@ def p_field_type(p):
                   | I16
                   | I32
                   | I64
+                  | DOUBLE
                   | container_type'''
     p[0] = p[1]
 
@@ -226,7 +229,9 @@ def p_function_list(p):
 
 def p_function(p):
     '''function : function_type IDENTIFIER LPAREN param_list RPAREN COMMA
-                | function_type IDENTIFIER LPAREN param_list RPAREN'''
+                | function_type IDENTIFIER LPAREN param_list RPAREN
+                | function_type IDENTIFIER LPAREN RPAREN COMMA
+                | function_type IDENTIFIER LPAREN RPAREN'''
     p[0] = {
         'return_type': p[1],
         'name': p[2],
@@ -240,14 +245,11 @@ def p_function_type(p):
 
 def p_param_list(p):
     '''param_list : param_list field
-                  | field
-                  | empty'''
+                  | field'''
     if len(p) == 3:
         p[0] = p[1] + [p[2]]
-    elif p[1]:
-        p[0] = [p[1]]
     else:
-        p[0] = []
+        p[0] = [p[1]]
 
 def p_empty(p):
     'empty :'
