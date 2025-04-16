@@ -22,6 +22,7 @@ reserved = {
     'list': 'LIST',
     'set': 'SET',
     'map': 'MAP',
+    'oneway': 'ONEWAY',
 }
 
 tokens = [

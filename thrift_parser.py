@@ -228,15 +228,26 @@ def p_function_list(p):
         p[0] = [p[1]]
 
 def p_function(p):
-    '''function : function_type IDENTIFIER LPAREN param_list RPAREN COMMA
+    '''function : ONEWAY function_type IDENTIFIER LPAREN param_list RPAREN COMMA
+                | ONEWAY function_type IDENTIFIER LPAREN param_list RPAREN
+                | ONEWAY function_type IDENTIFIER LPAREN RPAREN COMMA
+                | ONEWAY function_type IDENTIFIER LPAREN RPAREN
+                | function_type IDENTIFIER LPAREN param_list RPAREN COMMA
                 | function_type IDENTIFIER LPAREN param_list RPAREN
                 | function_type IDENTIFIER LPAREN RPAREN COMMA
                 | function_type IDENTIFIER LPAREN RPAREN'''
-    p[0] = {
-        'return_type': p[1],
-        'name': p[2],
-        'params': p[4]
-    }
+    if (p[1].lower() == 'oneway'):
+        p[0] = {
+            'return_type': p[2],
+            'name': p[3],
+            'params': p[5] if len(p) > 6 else []
+        }
+    else:
+        p[0] = {
+            'return_type': p[1],
+            'name': p[2],
+            'params': p[4] if len(p) > 5 else []
+        }
 
 def p_function_type(p):
     '''function_type : VOID

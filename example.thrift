@@ -41,3 +41,7 @@ struct User {
     8: i8 v8
     9: ScoreMap scores
 }
+
+service MyService {
+    oneway void logEvent(1: string event),
+}
