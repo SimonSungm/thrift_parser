@@ -84,6 +84,12 @@ def p_enum(p):
         'namespace': enum_namespace
     })
 
+def p_delimiter(p):
+    '''delimiter : COMMA
+                 | SEMICOLON'''
+    # 处理分隔符
+    pass
+
 def p_enum_field_list(p):
     '''enum_field_list : enum_field_list enum_field
                        | enum_field'''
@@ -93,8 +99,7 @@ def p_enum_field_list(p):
         p[0] = [p[1]]
 
 def p_enum_field(p):
-    '''enum_field : IDENTIFIER EQUALS NUMBER COMMA
-                  | IDENTIFIER EQUALS NUMBER SEMICOLON
+    '''enum_field : IDENTIFIER EQUALS NUMBER delimiter
                   | IDENTIFIER EQUALS NUMBER'''
     p[0] = {'name': p[1], 'value': p[3]}
 
@@ -161,11 +166,9 @@ def p_field_list(p):
         p[0] = [p[1]]
 
 def p_field(p):
-    '''field : NUMBER COLON field_req field_type IDENTIFIER EQUALS const_value COMMA
-             | NUMBER COLON field_req field_type IDENTIFIER EQUALS const_value SEMICOLON
+    '''field : NUMBER COLON field_req field_type IDENTIFIER EQUALS const_value delimiter
              | NUMBER COLON field_req field_type IDENTIFIER EQUALS const_value
-             | NUMBER COLON field_req field_type IDENTIFIER COMMA
-             | NUMBER COLON field_req field_type IDENTIFIER SEMICOLON
+             | NUMBER COLON field_req field_type IDENTIFIER delimiter
              | NUMBER COLON field_req field_type IDENTIFIER'''
     field_dict = {
         'id': p[1],
@@ -228,13 +231,13 @@ def p_function_list(p):
         p[0] = [p[1]]
 
 def p_function(p):
-    '''function : ONEWAY function_type IDENTIFIER LPAREN param_list RPAREN COMMA
+    '''function : ONEWAY function_type IDENTIFIER LPAREN param_list RPAREN delimiter
                 | ONEWAY function_type IDENTIFIER LPAREN param_list RPAREN
-                | ONEWAY function_type IDENTIFIER LPAREN RPAREN COMMA
+                | ONEWAY function_type IDENTIFIER LPAREN RPAREN delimiter
                 | ONEWAY function_type IDENTIFIER LPAREN RPAREN
-                | function_type IDENTIFIER LPAREN param_list RPAREN COMMA
+                | function_type IDENTIFIER LPAREN param_list RPAREN delimiter
                 | function_type IDENTIFIER LPAREN param_list RPAREN
-                | function_type IDENTIFIER LPAREN RPAREN COMMA
+                | function_type IDENTIFIER LPAREN RPAREN delimiter
                 | function_type IDENTIFIER LPAREN RPAREN'''
     if (p[1].lower() == 'oneway'):
         p[0] = {
